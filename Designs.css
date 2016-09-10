@@ -1,0 +1,148 @@
+body
+{
+ 
+}
+
+path {
+stroke:black;
+stroke-width:0.9px;
+fill:lightblue;
+}
+
+.bar:hover {
+	
+   cursor:pointer;
+   fill: brown;
+
+}
+
+
+.axis {
+  font: 12px sans-serif;
+  fill: none;
+  stroke: #000;
+  stroke-width:1px;
+}
+
+.axis path,
+.axis line {
+	
+	fill:none;
+	stroke: #000;
+  
+}
+
+.x.axis path,
+.x.axis line,	{
+	fill: none;
+  stroke: #000;
+  stroke-width:1px;
+  shape-rendering: crispEdges;
+  
+}
+
+.point
+{
+	stroke: #ff6600;
+	fill: #3b1800
+	opacity:1;
+	
+}
+
+.point:hover
+{
+	
+ cursor:pointer;
+ fill:red;
+
+ 
+}
+
+.highlight
+{
+	fill:red;
+}
+
+.changeO {
+	
+	opacity:0.5;
+}
+
+aside
+{
+	color:black;
+	font-size:1em;
+	font-family:Times new Roman;
+}
+
+
+.tooltip
+{
+	line-height:1;
+	font-weight:bold;
+	padding:12px;
+	background:#133b33;
+	color:#fff;
+	border-radius:3px;
+}
+.tooltip:after
+{
+	cursor:pointer;
+	position:fixed;
+	box-sizing:border-box;
+	display:inline;
+	font-size:10px;
+	width:100%;
+	line-height:1;
+	color: rgba(0,0,0,0.8);
+	content:"\25BC";
+	position:absolute;
+	text-align:center;
+}
+
+.tooltip.n:after
+{
+	cursor:pointer;
+	position:fixed;
+	margin: -5px 0 0 1;
+	top:100%;
+	left:0%;
+}
+
+h2
+{
+	font-size:2.0em;
+	color:black;
+	font-weight:bold;
+}
+
+h3
+{
+	font-size:1.85em;
+	color:black;
+	font-weight:bold;
+}
+
+#content
+{
+	text-align:center;
+	font-size:1.6em;
+	font-family:Times new Roman;
+	color:black;
+	
+}
+.head
+{
+	border-style:outset;
+	border-width:5px;
+	border-color:#b3e0ff;
+	color:black;
+	text-align:center;
+	font-family: Arial Verdana;
+	font-size:1.875em;
+}
+
+svg
+{
+	text-align:center;
+}
