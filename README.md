@@ -1,0 +1,367 @@
+# Meteors-impacted-earth-for-certain-period-visuzalized
+This was course project done by me using some powerful tool such as d3.js
+Note: If ur using google chrome for opening this project, i would suggest using CORS extension/Allow-control-Allow-origin or try using
+it in safari browser.
+
+
+
+index.html
+
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+</style>
+<head>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://d3js.org/topojson.v0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+	<link rel="stylesheet" type="text/css" href="Designs.css"/>
+</head>
+<aside id="aside">May 10th 2016</aside>
+<title>Meteorological Data of Meteors Impacted On Earth</title>
+<body>
+<p class ="head">Meteorological Data of Meteors Impacted on Earth</p>
+<h2>Table of Contents</h2>
+<h3>1. World Map</h3>
+<p id="content">This is the world map where we are showing the places where meteors were impacted by projecting the points on the world map. 
+The world map is working fully with few interactions such as zoom and paning, mouse-hover or tooltip information. There are points displayed 
+as per the meteorite sum of mass.I am having cross origin error, so i am using CORS extension on Chrome website to access the world map data.</p>
+<p id="content">
+Interactions:
+	1. zoom and pan.
+	2. tooltip.
+	3.Highlighting.</p>
+<div id="map"></div>
+<h3>2. Horizontal bar graphs</h3>
+<p id="content">This is the second visualization i have made for displaying the meteorite mass and type.
+ Upon that i have used tooltip interaction and highlighting for displaying more information.</p>
+<div id="bargraph1">
+<h4 id="content">How many meteorites by Mass:</h4>
+</div>
+<div id="bargraph2">
+<h4 id="content">How many meteorites by Type:</h4>
+</div>
+<script>
+var width = 960
+	height=500;
+
+var projection = d3.geo.mercator()
+	.translate([width/2, height/2])
+	.center([0, 5])
+	.scale(150);
+
+var svg = d3.select("#map").append("svg")
+	.attr("width", width)
+	.attr("height", height);
+
+var path = d3.geo.path()
+	.projection(projection);
+	
+var g = svg.append("g")
+
+function process(error, world, mapdata)
+{
+
+	if(error) throw error;
+	
+	g.selectAll("path")
+		.data(topojson.object(world, world.objects.countries)
+			.geometries)
+		.enter()
+			.append("path")
+			.attr("d", path);
+	
+	
+	var zoom = d3.behavior.zoom()
+		.on("zoom",function() {
+			g.attr("transform","translate("+d3.event.translate.join(",")+")scale("+d3.event.scale+")");
+			g.selectAll("path")
+				.attr("d",path.projection(projection));
+				
+		});
+		tip = d3.tip()
+		.attr("class","tooltip")
+		.html(function(d) {return "There are total of "+d.values+" meteorites with mass range of "+d.key  });
+				svg.call(tip);
+		svg.call(zoom)
+			
+	var impact = [];
+	var found = [];
+	
+	for(var i=0;i<mapdata.length;i++)
+	{
+		if(mapdata[i].FIELD1 == "Fell")
+		{
+		impact.push(mapdata[i]);
+		}
+		else
+		{
+		found.push(mapdata[i]);
+		}
+	}
+	
+	var places = [];
+	
+	for(i=1;i<mapdata.length;i++)
+	{
+			var temp = [];
+			temp.push([mapdata[i].FIELD7,mapdata[i].FIELD6]);
+			temp.push({
+				"Fell/found?":mapdata[i].FIELD1,
+				"MeteorMassRange":mapdata[i].FIELD2,
+				"Place":mapdata[i].FIELD3,
+				"TypeofMeteorite":mapdata[i].FIELD4,
+				"Year":mapdata[i].FIELD5,
+				"SumofMass":mapdata[i].FIELD8
+			});
+			places.push(temp);
+			
+	}
+	//console.log(places);
+	
+	tip = d3.tip()
+	.attr("class","tooltip")
+	.html(function (d) {return "Place: "+d[1].Place+" , "+"Type of meteorite: "+d[1].TypeofMeteorite+" , "+"Year: "+d[1].Year});
+	
+	g.selectAll("circle")
+		.data(places)
+		.enter().append("circle")
+			.attr("cx", function(d) {  return projection(d[0])[0];})
+			.attr("cy", function(d) { return projection(d[0])[1];})
+			.attr("r", function(d) {
+				if(d[1].SumofMass>=1100000)
+				return 15;
+				else if(d[1].SumofMass>=500000)
+				return 12;
+				else if(d[1].SumofMass>=250000)
+				return 9;
+				else if(d[1].SumofMass>=100000)
+				return 7;
+				else
+				return 5;
+			})
+			//.style("stroke","#ff6600")
+			//.style("fill", "#3b1800")
+			.attr("class", "point")
+			.on("mouseover",tip.show)
+			.on("mouseout",tip.hide)
+		svg.call(tip);
+//---------------------------------------------------------------------------------------------------//
+//2nd graph//https://bl.ocks.org/mbostock/3885304//references//
+	if (error) throw error;
+	
+	var grouprange = d3.nest()
+		.key(function (d) { return d.FIELD2; })
+		.entries(mapdata);
+		
+	var countrange = d3.nest()
+		.key(function(d) { return d.FIELD2; })
+		.rollup(function(c) { return c.length; })
+		.entries(mapdata);
+		
+	var countrange1 = countrange.slice(1,countrange.length);
+	
+	//console.log(countrange1);
+
+	//--------------------------------------------------------------------------------------------------//
+	
+	
+	var margin = {top:20, right:20, bottom:40, left:60};
+		var width =400  - margin.left - margin.right;
+		var height =1800 - margin.top - margin.bottom;
+	
+	
+	svg = d3.select("#bargraph1").append("svg")
+		.attr("width",  width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" +margin.left + "," + margin.top + ")");
+		
+	//Y-Axis//
+	max = d3.max(countrange1.map(function(d){ return d.values;} ));
+
+ 		var y = d3.scale.linear().range([height,0]);
+		y.domain([0,max]);
+		
+		var yAxis = d3.svg.axis()
+		.scale(y).orient("left");
+		
+		svg.append("g")
+		.attr("class", "axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y",-50)
+		.attr("x", -100)
+		.style("text-anchor","end")
+		.text("No of meteorites");
+
+		//X-Axis//
+		
+		var names = [];
+		
+		for(i =0;i<countrange1.length;i++)
+		{
+			names[i] = countrange1[i].key;
+		}
+		
+		//console.log(names);
+		
+		var x = d3.scale.ordinal()
+		.rangeRoundBands([0, width])
+		.domain(names);
+		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		svg.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0,"+(height)+")")
+		.call(xAxis)
+		.append("text")
+		.attr("transform", "rotate(0)")
+		.attr("y",35)
+		.attr("x",width/2)
+		.attr("text-anchor","end")
+		.text("Meteorites classes range");
+		
+		
+		var tip = d3.tip()
+		.attr("class","tooltip")
+		.html(function(d) {return "There are total of "+d.values+" meteorites with mass range of "+d.key  });
+		
+		svg.selectAll("rect")
+		.data(countrange1)
+		.enter()
+		.append("rect")
+		.attr("class","bar")
+		.attr("fill","steelblue")
+		.attr("x", function(d,i) {return x(d.key); })		
+		.attr("y", function(d,i)	{return y(d.values); })
+		.attr("width", 50)
+		.attr("height", function(d) {return height - y(d.values); })
+		.on("click", function(d) {
+	
+		m = d3.select(this).datum();
+	
+			//console.log(places[1].MeteorMassRange.datum());
+		console.log(m.key == places[1].MeteorMassRange);
+
+	for(i=0; i<places[1].length;i++)
+	{
+		if(d.key == places[1].MeteorMassRange)
+		{
+			d3.select(this).classed("highlight",true);
+			d3.select("#map").selectAll("circle").classed("changeO",true);
+		}
+	}	
+	})
+		.on("mouseover",tip.show)
+		.on("mouseout",tip.hide);
+		svg.call(tip);
+		
+	//-----------------------------------------------------------------//
+	if (error) throw error;
+
+	var grouptype = d3.nest()
+		.key(function (d) { return d.FIELD5; })
+		.entries(mapdata);
+		
+	var counttype = d3.nest()
+		.key(function(d) {return d.FIELD5; })
+		.rollup(function(c) { return c.length; })
+		.entries(mapdata);
+		
+	var counttype1 = counttype.slice(1,counttype.length-1);
+	
+	//console.log(counttype1);
+	
+	//-----------------------------------------------------------------------------------------------//
+//references//https://bl.ocks.org/mbostock/3885304//
+	var margin = {top:20, right:20, bottom:40, left:60};
+		var width =screen.width  - margin.left - margin.right;
+		var height = 400 - margin.top - margin.bottom;
+	
+	
+	svg = d3.select("#bargraph2").append("svg")
+		.attr("width",  width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" +margin.left + "," + margin.top + ")");
+		
+	//Y-Axis//
+	max = d3.max(counttype1.map(function(d){ return d.values;} ));
+
+ 		var y = d3.scale.linear().range([height,0]);
+		y.domain([0,max])
+		var yAxis = d3.svg.axis().scale(y).orient("left");
+		
+		svg.append("g")
+		.attr("class", "axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y",-50)
+		.attr("x", -100)
+		.style("text-anchor","end")
+		.text("No of meteorites");
+
+		//X-Axis//
+		
+		var years = [];
+		
+		for(i =0;i<counttype1.length;i++)
+		{
+			years[i] = counttype1[i].key;
+		}
+		
+		//console.log(names);
+		
+		var x = d3.scale.ordinal()
+		.rangeRoundBands([0, width])
+		.domain(years);
+		
+		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		svg.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0,"+(height)+")")
+		.call(xAxis)
+		.append("text")
+		.attr("transform", "rotate(0)")
+		.attr("y",35)
+		.attr("x",width/2)
+		.attr("text-anchor","end")
+		.text("Year");
+		
+		
+		var tip = d3.tip()
+		.attr("class","tooltip")
+		.html(function(d) {return "A total of "+d.values+" meteorites were found/fell in the year "+d.key  });
+		
+		var colors = d3.scale.category20c();
+		
+		svg.selectAll("rect")
+		.data(counttype1)
+		.enter()
+		.append("rect")
+		.attr("class","bar")
+		.style("fill", function(d,i) {return colors(i); })
+		//.attr("fill","steelblue")
+		.attr("x", function(d,i) {return x(d.key); })		
+		.attr("y", function(d,i)	{return y(d.values); })
+		.attr("width", 40)
+		.attr("height", function(d) {return height - y(d.values); })
+		.on("mouseover",tip.show)
+		.on("mouseout",tip.hide)
+		
+		svg.call(tip);
+
+}
+
+queue()
+.defer(d3.json,"http://bl.ocks.org/mbostock/raw/4090846/world-50m.json")
+.defer(d3.json,"https://gist.github.com/skumar123908/aa0072cdbc5ac1db6ca78acf06f2120d/raw/6720cb155001068c5dd30e1d786838335589becf/meteor.json")
+.await(process);
+</script>
+</body>
+</html>
