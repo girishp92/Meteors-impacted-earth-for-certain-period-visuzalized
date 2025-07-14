@@ -1,12 +1,5 @@
 # Meteors-impacted-earth-for-certain-period-visuzalized
 This was course project done by me using some powerful tool such as d3.js
-Note: If ur using google chrome for opening this project, i would suggest using CORS extension/Allow-control-Allow-origin or try using
-it in safari browser.
-
-
-
-index.html
-
 
 # Meteors Impacted Earth Visualization
 
