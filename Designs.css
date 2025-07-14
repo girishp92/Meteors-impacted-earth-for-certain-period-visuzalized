@@ -1,8 +1,26 @@
-body
-{
- 
+body {
+  /* ...existing code... */
+  text-align: center;
 }
-
+h2, h3, .head {
+  text-align: center;
+}
+#content {
+  text-align: center;
+}
+#map, #bargraph1, #stackedgraph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+body {
+  background: linear-gradient(120deg, #f8fafc 0%, #e3e7ea 100%);
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  color: #222;
+}
 path {
 stroke:black;
 stroke-width:0.9px;
@@ -10,10 +28,8 @@ fill:lightblue;
 }
 
 .bar:hover {
-	
    cursor:pointer;
    fill: brown;
-
 }
 
 
@@ -26,14 +42,12 @@ fill:lightblue;
 
 .axis path,
 .axis line {
-	
 	fill:none;
 	stroke: #000;
-  
 }
 
 .x.axis path,
-.x.axis line,	{
+.x.axis line {
 	fill: none;
   stroke: #000;
   stroke-width:1px;
@@ -44,7 +58,7 @@ fill:lightblue;
 .point
 {
 	stroke: #ff6600;
-	fill: #3b1800
+	fill: #3b1800;
 	opacity:1;
 	
 }
