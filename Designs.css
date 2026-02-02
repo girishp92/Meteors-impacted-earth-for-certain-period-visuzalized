@@ -1,6 +1,8 @@
 body {
-  text-align: center;
-  width: 100%;
+	text-align: center;
+	width: 100%;
+	background: #0f1115;
+	color: #e6e6e6;
 }
 h2, h3, .head {
   text-align: center;
@@ -15,88 +17,92 @@ h2, h3, .head {
   justify-content: center;
 }
 body {
-  min-height: 100vh;
-  margin: 0;
-  font-family: 'Segoe UI', 'Arial', sans-serif;
-  color: #222;
+	min-height: 100vh;
+	margin: 0;
+	font-family: 'Segoe UI', 'Arial', sans-serif;
+	color: #e6e6e6;
 }
 path {
-stroke:black;
-stroke-width:0.9px;
-fill:lightblue;
+	stroke: #2b2f38;
+	stroke-width: 0.9px;
+	fill: #1f6feb;
 }
 
 .bar:hover {
-   cursor:pointer;
-   fill: brown;
+	cursor: pointer;
+	fill: #d97706;
 }
 
 
 .axis {
-  font: 12px sans-serif;
-  fill: none;
-  stroke: #000;
-  stroke-width:1px;
+	font: 12px sans-serif;
+	fill: none;
+	stroke: #b9c0cc;
+	stroke-width: 1px;
+}
+
+.axis text {
+	fill: #e5e7eb;
+}
+
+.x.label,
+.y.label {
+	fill: #e5e7eb;
 }
 
 .axis path,
 .axis line {
-	fill:none;
-	stroke: #000;
+	fill: none;
+	stroke: #b9c0cc;
 }
 
 .x.axis path,
 .x.axis line {
 	fill: none;
-  stroke: #000;
-  stroke-width:1px;
-  shape-rendering: crispEdges;
-  
+	stroke: #b9c0cc;
+	stroke-width: 1px;
+	shape-rendering: crispEdges;
 }
 
 .point
 {
-	stroke: #ff6600;
-	fill: #3b1800;
-	opacity:1;
-	
+	stroke: #ffb454;
+	fill: #7c3aed;
+	opacity: 1;
 }
 
 .point:hover
 {
-	
- cursor:pointer;
- fill:red;
-
- 
+ cursor: pointer;
+ fill: #f43f5e;
 }
 
 .highlight
 {
-	fill:red;
+	fill: #f43f5e;
 }
 
 .changeO {
-	
-	opacity:0.5;
+	opacity: 0.5;
 }
 
 aside
 {
-	color:black;
-	font-size:1em;
-	font-family:Times new Roman;
+	color: #cbd5e1;
+	font-size: 1em;
+	font-family: "Times New Roman", Times, serif;
 }
 
 
 .tooltip
 {
-	line-height:1;
-	font-weight:bold;
-	padding:12px;
-	background:#133b33;
-	color:#fff;
-	border-radius:3px;
+	line-height: 1;
+	font-weight: bold;
+	padding: 12px;
+	background: #111827;
+	color: #f8fafc;
+	border: 1px solid #374151;
+	border-radius: 6px;
 }
 .tooltip:after
 {
@@ -124,38 +130,43 @@ aside
 
 h2
 {
-	font-size:2.0em;
-	color:black;
-	font-weight:bold;
+	font-size: 2.0em;
+	color: #f8fafc;
+	font-weight: bold;
 }
 
 h3
 {
-	font-size:1.85em;
-	color:black;
-	font-weight:bold;
+	font-size: 1.85em;
+	color: #e2e8f0;
+	font-weight: bold;
 }
 
 #content
 {
-	text-align:center;
-	font-size:1.6em;
-	font-family:Times new Roman;
-	color:black;
-	
+	text-align: center;
+	font-size: 1.6em;
+	font-family: "Times New Roman", Times, serif;
+	color: #d1d5db;
 }
 .head
 {
-	border-style:outset;
-	border-width:5px;
-	border-color:#b3e0ff;
-	color:black;
-	text-align:center;
-	font-family: Arial Verdana;
-	font-size:1.875em;
+	margin: 24px auto 16px;
+	padding: 16px 20px;
+	max-width: 1100px;
+	border: 1px solid #1f2937;
+	border-radius: 12px;
+	color: #f8fafc;
+	text-align: center;
+	font-family: "Segoe UI", Arial, Verdana, sans-serif;
+	font-size: 2.1em;
+	font-weight: 700;
+	letter-spacing: 0.4px;
+	background: linear-gradient(135deg, #0b1220, #0f172a 55%, #0b1220);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 svg
 {
-	text-align:center;
+	text-align: center;
 }
