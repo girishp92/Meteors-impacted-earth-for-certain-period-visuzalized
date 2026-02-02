@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Meteorological Data of Meteors Impacted On Earth</title>
+  <style>
 .spinner {
   width: 48px;
   height: 48px;
@@ -14,17 +17,15 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-</style>
-<head>
+  </style>
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="https://d3js.org/topojson.v0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.min.js"></script>
   <link rel="stylesheet" type="text/css" href="Designs.css"/>
 </head>
-<aside id="aside">May 10th 2016</aside>
-<title>Meteorological Data of Meteors Impacted On Earth</title>
 <body>
+<aside id="aside">May 10th 2016</aside>
 <p class ="head">Meteorological Data of Meteors Impacted on Earth</p>
 <h2>Table of Contents</h2>
 <h3>1. World Map</h3>
@@ -69,3 +70,5 @@ queue()
     document.getElementById('loader').style.display = 'none';
   });
 </script>
+</body>
+</html>
