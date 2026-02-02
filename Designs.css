@@ -1,6 +1,6 @@
 body {
-  /* ...existing code... */
   text-align: center;
+  width: 100%;
 }
 h2, h3, .head {
   text-align: center;
@@ -15,7 +15,6 @@ h2, h3, .head {
   justify-content: center;
 }
 body {
-  background: linear-gradient(120deg, #f8fafc 0%, #e3e7ea 100%);
   min-height: 100vh;
   margin: 0;
   font-family: 'Segoe UI', 'Arial', sans-serif;

@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid #b3e0ff;
+  border-top: 6px solid #222;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 <head>
-	<script src="http://d3js.org/d3.v3.min.js"></script>
-	<script src="http://d3js.org/topojson.v0.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
-	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-	<link rel="stylesheet" type="text/css" href="Designs.css"/>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <link rel="stylesheet" type="text/css" href="Designs.css"/>
 </head>
 <aside id="aside">May 10th 2016</aside>
 <title>Meteorological Data of Meteors Impacted On Earth</title>
@@ -21,15 +33,21 @@ The world map is working fully with few interactions such as zoom and paning, mo
 as per the meteorite sum of mass.I am having cross origin error, so i am using CORS extension on Chrome website to access the world map data.</p>
 <p id="content">
 Interactions:
-	1. zoom and pan.
-	2. tooltip.
-	3.Highlighting.</p>
+  1. zoom and pan.
+  2. tooltip.
+  3.Highlighting.</p>
 <div id="map"></div>
 <h3>2. Horizontal bar graphs</h3>
 <p id="content">This is the second visualization i have made for displaying the meteorite mass and type.
  Upon that i have used tooltip interaction and highlighting for displaying more information.</p>
 <div id="bargraph1">
 <h4 id="content">How many meteorites by Mass:</h4>
+</div>
+<div id="loader" style="position:fixed;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.8);z-index:9999;">
+  <div style="text-align:center;">
+    <div class="spinner" style="margin-bottom:20px;"></div>
+    <div style="font-size:2em;color:#222;">Loading visualizations...</div>
+  </div>
 </div>
 <script src="js/map.js"></script>
 <script src="js/bargraph.js"></script>
@@ -39,14 +57,15 @@ queue()
   .defer(d3.json, "data/world.geojson")
   .defer(d3.json, "data/meteor.json")
   .await(function(error, world, mapdata) {
-	if(error) throw error;
-	renderMap(world, mapdata);
-	var countrange = d3.nest()
-	  .key(function(d) { return d.FIELD2; })
-	  .rollup(function(c) { return c.length; })
-	  .entries(mapdata);
-	var countrange1 = countrange.slice(1, countrange.length);
-	renderBarGraph(countrange1);
-	renderStackedGraph(mapdata);
+    if(error) throw error;
+    renderMap(world, mapdata);
+    var countrange = d3.nest()
+      .key(function(d) { return d.FIELD2; })
+      .rollup(function(c) { return c.length; })
+      .entries(mapdata);
+    var countrange1 = countrange.slice(1, countrange.length);
+    renderBarGraph(countrange1);
+    renderStackedGraph(mapdata);
+    document.getElementById('loader').style.display = 'none';
   });
 </script>
